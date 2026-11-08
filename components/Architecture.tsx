@@ -90,7 +90,7 @@ const NODES: Node[] = [
       ["contamination", "0.05"],
       ["score threshold", "-0.05"],
       ["combined anomalies", "ignored while CPU and RAM are under 80%"],
-      ["auto", "latest 50–500 points, every 30 s by default"],
+      ["auto", "latest 30–500 points, every 30 s by default"],
       ["manual", "your time range, model saved in PostgreSQL"],
     ],
     col: HUB,
