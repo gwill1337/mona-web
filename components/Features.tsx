@@ -56,7 +56,7 @@ const X = (i: number) => (i / (N - 1)) * 600;
 const PATH = SERIES.map((y, i) => `${i ? "L" : "M"}${X(i).toFixed(1)} ${y.toFixed(1)}`).join("");
 
 const MODES = {
-  auto: "Last 50–500 points, retrained before every detection (every 30 s by default). The model is not stored.",
+  auto: "Last 30–500 points, retrained before every detection (every 30 s by default). The model is not stored.",
   manual: "Trains on a time range you pick. The trained model is saved in PostgreSQL.",
 } as const;
 
