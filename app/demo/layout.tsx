@@ -1,4 +1,14 @@
 import { Sidebar } from "@/components/demo/Sidebar";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    default: "Admin panel demo",
+    template: "%s | MONA",
+  },
+  description: "Demo admin panel for MONA self-hosted anomaly detection and monitoring platform",
+  alternates: { canonical: "/demo" }
+};
 
 export default function DemoLayout({
     children,

@@ -20,8 +20,8 @@ const syne = Syne({
 });
 
 const SITE_URL = "https://mona-eliseyar.vercel.app";
-const DESCRIPTION = "Self-hosted monitoring platform with ML anomaly detection and built-in MCP server. One-command deploy.";
-const TITLE = "MONA — Monitoring and Analysis Platform"
+const DESCRIPTION = "Open-source, self-hosted monitoring platform with ML anomaly detection and built-in MCP server. One-command deploy.";
+const TITLE = "MONA - Self-Hosted Monitoring and Analytics Platform"
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -34,8 +34,7 @@ export const metadata: Metadata = {
   keywords: [
     "monitoring platform",
     "anomaly detection",
-    "metrics analysis",
-    "observability",
+    "metrics analytics",
     "infrastructure monitoring",
     "self hosted monitoring",
     "analyze metrics",
@@ -44,7 +43,6 @@ export const metadata: Metadata = {
     "scikit-learn",
     "isolation forest",
     "mcp",
-    "python",
   ],
   authors: [{ name: "eliseyar", url: "https://github.com/gwill1337" }],
   alternates: {
@@ -94,12 +92,32 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "MONA",
+  alternateName: "MONA - Monitor & Analytics Platform",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Linux, Kubernetes, Docker",
+  description: DESCRIPTION,
+  url: SITE_URL,
+  license: "https://opensource.org/licenses/MIT",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  author: { "@type": "Person", name: "eliseyar", url: "https://github.com/gwill1337" },
+  sameAs: ["https://github.com/gwill1337/MONA"],
+};
+
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} ${syne.variable} h-full antialiased`}
     >
+      <head>
+        <script type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
+      </head>
       <body>
         <Header />
         {children}

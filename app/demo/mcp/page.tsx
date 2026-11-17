@@ -15,7 +15,7 @@ function generateKey(): string {
   return `mona_api_${hex}`;
 }
 
-export default function Page() {
+export default function MCP() {
   const [keyName, setKeyName] = useState("Claude Desktop Key");
   const [apiKey, setApiKey] = useState<string | null>(null);
 

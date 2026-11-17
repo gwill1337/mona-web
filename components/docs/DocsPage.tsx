@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import {
   A,
@@ -49,7 +48,6 @@ const snippets = {
 const SECTIONS = [
   { id: "deployment", label: "Deployment" },
   { id: "node-exporter", label: "Node exporter" },
-  { id: "exporters", label: "Other exporters" },
   { id: "connect", label: "Connect a device" },
   { id: "links", label: "Links and ports" },
   { id: "ml", label: "How ML works" },
@@ -128,7 +126,7 @@ const POINT_PATH = [
       <>
         Celery beat schedules a task. A Celery worker reads CPU and RAM for every
         device from Prometheus and stores them in the <Code>metrics</Code> table.
-        Detection runs on a schedule, every 60 seconds by default.
+        Detection runs on a schedule, every 30 seconds by default.
       </>
     ),
   },
@@ -177,7 +175,7 @@ const POINT_PATH = [
 const MODE_ROWS = [
   {
     label: "Training data",
-    auto: "The most recent 50–500 points, a sliding window",
+    auto: "The most recent 30–500 points, a sliding window",
     manual: "A time range you choose",
   },
   {
@@ -187,7 +185,7 @@ const MODE_ROWS = [
   },
   {
     label: "Retraining",
-    auto: "Before every detection, every 60 seconds by default",
+    auto: "Before every detection, every 30 seconds by default",
     manual: "Only when you run training again",
   },
   {
@@ -455,35 +453,6 @@ export default function DocsPage() {
                       ),
                     },
                     {
-                      id: "windows",
-                      label: "Windows",
-                      content: (
-                        <div className="space-y-4">
-                          <P>
-                            Download the <Code>.msi</Code> from the{" "}
-                            <A href="https://github.com/prometheus-community/windows_exporter/releases">
-                              windows_exporter releases
-                            </A>
-                            . The installer registers a Windows service.
-                          </P>
-                          <CodeBlock lang="powershell" code={snippets.nodeWindows} />
-                          <Callout kind="warn" title="Port 9100 instead of 9182">
-                            windows_exporter listens on 9182 by default. The Admin
-                            panel stores only a name and an IP, so keep the
-                            exporter on 9100 as above. To stay on 9182, register
-                            the device in <Code>values.yaml</Code> with that port.
-                          </Callout>
-                          <H3>Firewall and check</H3>
-                          <P>
-                            The installer may already open the port. To limit it
-                            to your MONA host or subnet, add a scoped rule:
-                          </P>
-                          <CodeBlock lang="powershell" code={snippets.nodeWindowsFirewall} />
-                          <CodeBlock lang="powershell" code={snippets.nodeWindowsVerify} />
-                        </div>
-                      ),
-                    },
-                    {
                       id: "macos",
                       label: "macOS",
                       content: (
@@ -529,63 +498,6 @@ export default function DocsPage() {
                   expose port 9100 to the internet, and allow only your MONA host
                   or LAN subnet.
                 </Callout>
-              </Section>
-
-              {/* 3 ─ Other exporters */}
-              <Section
-                id="exporters"
-                title="Other exporters"
-                lead="Prometheus scrapes anything that serves metrics over HTTP. Servers, network gear and services plug in the same way: run an exporter, then register its host and port."
-              >
-                <TableWrap minWidth="min-w-[640px]">
-                  <thead>
-                    <tr>
-                      <Th>Target</Th>
-                      <Th>Exporter</Th>
-                      <Th>Port</Th>
-                      <Th>Notes</Th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {EXPORTERS.map((e) => (
-                      <tr key={e.name}>
-                        <RowTh>{e.target}</RowTh>
-                        <Td>
-                          <A href={e.href}>{e.name}</A>
-                        </Td>
-                        <Td>
-                          <span className="font-mono tabular-nums">{e.port}</span>
-                        </Td>
-                        <Td>{e.note}</Td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </TableWrap>
-
-                <Callout title="What feeds anomaly detection">
-                  Anomaly detection works on CPU and RAM. Data from other
-                  exporters is visible in Prometheus and, with the Terraform
-                  setup, in Grafana through the <Code>Prometheus-PC</Code> data
-                  source.
-                </Callout>
-
-                <H3>Example: a network device over SNMP</H3>
-                <P>
-                  Run snmp_exporter once, then add one scrape job per device. The
-                  job passes the device address to the exporter as a parameter.
-                </P>
-                <CodeBlock lang="bash" code={snippets.snmpRun} />
-                <CodeBlock
-                  lang="yaml"
-                  title="scrape_configs"
-                  code={snippets.snmpJob}
-                />
-                <P>
-                  Add the job to <Code>prometheus/prometheus.yml</Code> for Docker
-                  Compose, or to <Code>prometheus-configmap.yaml</Code> in the
-                  Helm chart, then reload Prometheus without a restart:
-                </P>
-                <CodeBlock lang="bash" code={snippets.prometheusReload} />
               </Section>
 
               {/* 4 ─ Connect a device */}
@@ -723,7 +635,8 @@ export default function DocsPage() {
                 <Callout title="Grafana access">
                   The Grafana admin password is the{" "}
                   <Code>grafana_admin_password</Code> value from{" "}
-                  <Code>terraform.tfvars</Code>.
+                  <Code>terraform.tfvars</Code> or{" "}
+                  <Code>.env</Code>.
                 </Callout>
               </Section>
 
@@ -741,11 +654,10 @@ export default function DocsPage() {
                       <li key={step.title} className="relative pl-6">
                         <span
                           aria-hidden="true"
-                          className={`absolute top-1.5 left-[-5.5px] size-2.5 rounded-full border ${
-                            last
+                          className={`absolute top-1.5 left-[-5.5px] size-2.5 rounded-full border ${last
                               ? "border-white bg-white"
                               : "border-zinc-500 bg-black"
-                          }`}
+                            }`}
                         />
                         <p className="text-[15px] font-medium text-white">
                           <span className="mr-2 font-mono text-xs text-zinc-500">
@@ -959,11 +871,10 @@ export default function DocsPage() {
                       <a
                         href={`#${s.id}`}
                         aria-current={isActive ? "location" : undefined}
-                        className={`-ml-px block border-l py-1.5 pl-4 text-sm transition-colors ${
-                          isActive
+                        className={`-ml-px block border-l py-1.5 pl-4 text-sm transition-colors ${isActive
                             ? "border-white font-medium text-white"
                             : "border-transparent text-zinc-400 hover:text-zinc-200"
-                        }`}
+                          }`}
                       >
                         {s.label}
                       </a>

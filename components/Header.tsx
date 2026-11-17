@@ -62,7 +62,7 @@ export function Header() {
                     onClick={handleLogoClick}
                     className="flex items-center gap-1 text-white cursor-pointer">
                     <Activity size={35} />
-                    <h1 className="text-2xl font-bold font-syne transition duration-300 hover:translate-y-1">MONA</h1>
+                    <span className="text-2xl font-bold font-syne transition duration-300 hover:translate-y-1">MONA</span>
                 </Link>
                 <div className="flex gap-4 text-xl font-semibold font-syne">
                     <nav className="hidden md:flex gap-4 text-xl font-semibold font-syne">
@@ -108,31 +108,36 @@ export function Header() {
             {open && (
                 <>
                     <div className="fixed inset-0 md:hidden" onClick={() => setOpen(false)} />
-                    <nav className="md:hidden absolute right-3 top-full mt-2 w-44 rounded-xl border border-zinc-500 bg-black/90 backdrop-blur-3xl p-2">
-                        <nav className="flex flex-col items-start gap-1">
-                            {navLinks.map((link) => (
-                                <Link
-                                    key={link.href}
-                                    href={`/${link.href}`}
-                                    onClick={(e) => {
-                                        setOpen(false);
-                                        if (pathname === "/") {
-                                            e.preventDefault();
-                                            handleScroll(e, link.href);
-                                        }
-                                    }}
-                                    className="w-full px-3 py-1.5 rounded-lg text-base font-medium text-foreground hover:text-primary hover:bg-black/10 dark:hover:bg-white/10 transition font-syne"
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
-                        </nav>
+                    <nav className="flex flex-col md:hidden absolute right-3 gap-1 top-full w-44 rounded-xl border border-zinc-500 bg-black/90 backdrop-blur-3xl p-2 font-medium">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.href}
+                                href={`/${link.href}`}
+                                onClick={(e) => {
+                                    setOpen(false);
+                                    if (pathname === "/") {
+                                        e.preventDefault();
+                                        handleScroll(e, link.href);
+                                    }
+                                }}
+                                className="w-full px-3 py-1.5 rounded-lg text-base text-foreground hover:text-primary hover:bg-black/10 dark:hover:bg-white/10 transition font-syne"
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
+                        <Link
+                            href={"/demo/docs"}
+                            onClick={() => setOpen(false)}
+                            className="flex items-center px-3 py-1.5 rounded-lg text-foreground hover:text-primary hover:bg-black/10 dark:hover:bg-white/10 transition font-syne"
+                        >
+                            Docs
+                        </Link>
                         <a
                             href="https://github.com/gwill1337/MONA"
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={() => setOpen(false)}
-                            className="flex items-center gap-3 px-3 py-1.5 rounded-lg text-foreground hover:text-primary hover:bg-black/10 dark:hover:bg-white/10 transition font-syne"
+                            className="flex items-center px-3 py-1.5 rounded-lg text-foreground hover:text-primary hover:bg-black/10 dark:hover:bg-white/10 transition font-syne"
                         >
                             GitHub
                         </a>

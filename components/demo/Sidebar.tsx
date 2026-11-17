@@ -22,7 +22,7 @@ export function Sidebar() {
     const pathname = usePathname();
 
     return (
-        <aside className="relative md:sticky md:top-0 w-full md:w-72 border-b md:border-b-0 md:border-r border-white/10 bg-[#0F0E0E] py-6 px-3 flex flex-col justify-start gap-8 z-10 shrink-0 h-auto md:h-screen md:overflow-y-auto">
+        <aside className="relative md:fixed md:top-0 w-full md:w-72 border-b md:border-b-0 md:border-r border-white/10 bg-[#0F0E0E] py-6 px-3 flex flex-col justify-start gap-8 z-10 shrink-0 h-auto md:h-screen md:overflow-y-auto mt-12">
 
             <nav className="flex flex-col gap-2">
                 {navItems.map((item) => {

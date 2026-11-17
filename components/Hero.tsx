@@ -8,6 +8,9 @@ import Link from "next/link";
 const DEMO_HREF = "/demo";
 
 const TAGS = ["MCP",  "Self-hosted", "Monitor anything", "One-command deploy"];
+// const TAGS = ["Built-in MCP server", "One-command deploy", "ML anomaly detection", "Self-hosted and open-source"];
+// const TAGS = ["Self-hosted", "ML detection", "Built-in MCP server",  "One-command deploy"];
+
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -67,14 +70,14 @@ function Brand() {
         <Activity className="w-12 h-12 md:w-15 md:h-15" aria-hidden />
       </motion.div>
 
-      <h2 className="flex font-syne text-4xl md:text-5xl font-bold">
+      <h1 className="flex font-syne text-4xl md:text-5xl font-bold">
         <span className="sr-only">{text}</span>
         {[...text].map((ch, i) => (
           <motion.span key={i} aria-hidden variants={brandItemVariants} className="inline-block">
             {ch}
           </motion.span>
         ))}
-      </h2>
+      </h1>
     </motion.div>
   );
 }
@@ -106,13 +109,13 @@ export function Hero() {
         className="relative isolate h-svh min-h-[900px] overflow-hidden text-neutral-50 lg:min-h-[720px]"
         style={{ "--orb": "clamp(224px, 19vw, 400px)", "--h": "clamp(40px, 3.8vw, 80px)" } as CSSProperties}
       >
-        <h1 className="sr-only">MONA: monitoring and analytics for any device</h1>
+        <span className="sr-only">MONA: self-hosted anomaly detection and monitoring tool</span>
 
         <HeroVisual>
           <MotionLink
             {...rise(1.5)}
             href={DEMO_HREF}
-            className="group inline-flex h-14 items-center gap-2 rounded-full bg-neutral-50 px-8 font-syne text-xl font-semibold text-neutral-950 transition-colors duration-200 hover:bg-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white lg:h-16 lg:px-10 lg:text-2xl cursor-pointer"
+            className="group -mt-15 md:mt-0 inline-flex h-14 items-center gap-2 rounded-full bg-neutral-50 px-8 font-syne text-xl font-semibold text-neutral-950 transition-colors duration-200 hover:bg-neutral-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white lg:h-16 lg:px-10 lg:text-2xl cursor-pointer z-110"
           >
             Try in web
             <ArrowUpRight
@@ -133,7 +136,7 @@ export function Hero() {
         >
           {TAGS.map((tag) => (
             <motion.li key={tag} variants={tagVariants}>
-              <span className="mr-1.5 text-neutral-500">//</span>
+              <span className="mr-1.5 text-neutral-500" aria-hidden="true">//</span>
               {tag}
             </motion.li>
           ))}
@@ -142,7 +145,7 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col gap-10 px-6 pb-10 sm:px-8 lg:top-[58%] lg:flex-row lg:justify-between lg:pb-[12svh]">
           <div className="flex flex-col gap-4 lg:w-[calc(var(--h)_*_8.8)] lg:self-end">
             <motion.p {...rise(1.2)} className="max-w-[36rem] text-base text-neutral-300 lg:text-lg">
-              Mona is a monitoring and analytics system that scrapes any device and detects anomalies
+              MONA is an open-source, self-hosted monitoring platform. It collects CPU and RAM from any device running node-exporter and detects anomalies with ML
             </motion.p>
             <p className={heading}>
               <Word text="Monitor" delay={0.6} />
@@ -158,7 +161,7 @@ export function Hero() {
               className="max-w-[36rem] text-base text-neutral-300 lg:w-0 lg:min-w-full lg:max-w-none lg:text-lg"
             >
               Isolation Forest for anomaly detection, FastAPI for the backend, React for the frontend, Terraform,
-              Kubernetes (kind) and Docker for infra
+              Kubernetes (kind), Docker for infra and a built-in MCP server for AI agents
             </motion.p>
           </div>
         </div>
